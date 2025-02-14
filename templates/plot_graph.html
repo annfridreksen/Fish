@@ -27,6 +27,36 @@
 </form>
 
 {% if plot %}
-    {{ plot | safe }}
+    <div id="graph">{{ plot | safe }}</div>
+{% endif %}
+
+<hr>
+
+<h3>Графики инвентаризации</h3>
+<form method="POST" action="{{ url_for('plot_graph') }}">
+    {{ inventory_form.hidden_tag() }}
+    <div class="form-row">
+        <div class="col">
+            {{ inventory_form.parameter.label(class="form-control-label") }}
+            {{ inventory_form.parameter(class="form-control") }}
+        </div>
+        <div class="col">
+            {{ inventory_form.start_date.label(class="form-control-label") }}
+            {{ inventory_form.start_date(class="form-control") }}
+        </div>
+        <div class="col">
+            {{ inventory_form.end_date.label(class="form-control-label") }}
+            {{ inventory_form.end_date(class="form-control") }}
+        </div>
+    </div>
+    <div class="form-row mt-3">
+        <div class="col">
+            {{ inventory_form.submit(class="btn btn-primary") }}
+        </div>
+    </div>
+</form>
+
+{% if inventory_plot %}
+    <div id="inventory_graph">{{ inventory_plot | safe }}</div>
 {% endif %}
 {% endblock %}

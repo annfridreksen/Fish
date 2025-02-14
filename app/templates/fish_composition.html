@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Сводная таблица состава рыбы по бассейнам</h2>
+<table class="table table-compact table-striped table-bordered mt-4">
+    <thead>
+        <tr>
+            <th>№ п/п</th>
+            <th>Название вида</th>
+            <th>Количество, экз</th>
+            <th>Общая масса, кг</th>
+            <th>Средняя масса, кг</th>
+            <th>Бассейны</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for idx, (fish_type, data) in enumerate(fish_data.items(), 1) %}
+        <tr>
+            <td>{{ idx }}</td>
+            <td>{{ fish_type }}</td>
+            <td>{{ data.total_count }}</td>
+            <td>{{ data.total_mass }}</td>
+            <td>{{ (data.total_mass / data.total_count) | round(2) if data.total_count > 0 else 0 }}</td>
+            <td>{{ ', '.join(data.pools | map('string')) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -3,37 +3,25 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Тип корма</h2>
-<table class="table table-compact table-striped table-bordered mt-4">
-    <thead>
-        <tr>
-            <th>№ п/п</th>
-            <th>Тип корма</th>
-            <th>Тип единицы</th>
-            <th>Действие</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for feed_type in feed_types %}
-        <tr>
-            <td>{{ feed_type.id }}</td>
-            <td>{{ feed_type.name }}</td>
-            <td>{{ feed_type.unit }}</td>
-            <td>
-                <a href="{{ url_for('edit_feed_type', feed_type_id=feed_type.id) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
-                <form action="{{ url_for('delete_feed_type', feed_type_id=feed_type.id) }}" method="post" style="display:inline;">
-                    <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                </form>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-<a href="{{ url_for('new_feed_type') }}" class="btn btn-primary">Добавить</a>
-
-<hr style="border: 2px solid blue;">
-
 <h2>Журнал кормления</h2>
+<form method="POST" action="{{ url_for('feeding') }}">
+    {{ filter_form.hidden_tag() }}
+    <div class="form-row">
+        <div class="col">
+            {{ filter_form.start_date.label(class="form-control-label") }}
+            {{ filter_form.start_date(class="form-control") }}
+        </div>
+        <div class="col">
+            {{ filter_form.end_date.label(class="form-control-label") }}
+            {{ filter_form.end_date(class="form-control") }}
+        </div>
+    </div>
+    <div class="form-row mt-3">
+        <div class="col">
+            {{ filter_form.submit(class="btn btn-primary") }}
+        </div>
+    </div>
+</form>
 <table class="table table-compact table-striped table-bordered mt-4">
     <thead>
         <tr>
@@ -66,4 +54,35 @@
     </tbody>
 </table>
 <a href="{{ url_for('new_feed') }}" class="btn btn-primary">Добавить</a>
+
+<hr style="border: 2px solid blue;">
+
+<h2>Тип корма</h2>
+<table class="table table-compact table-striped table-bordered mt-4">
+    <thead>
+        <tr>
+            <th>№ п/п</th>
+            <th>Тип корма</th>
+            <th>Тип единицы</th>
+            <th>Действие</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for feed_type in feed_types %}
+        <tr>
+            <td>{{ feed_type.id }}</td>
+            <td>{{ feed_type.name }}</td>
+            <td>{{ feed_type.unit }}</td>
+            <td>
+                <a href="{{ url_for('edit_feed_type', feed_type_id=feed_type.id) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
+                <form action="{{ url_for('delete_feed_type', feed_type_id=feed_type.id) }}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{{ url_for('new_feed_type') }}" class="btn btn-primary">Добавить</a>
+
 {% endblock %}

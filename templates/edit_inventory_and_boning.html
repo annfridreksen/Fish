@@ -1,15 +1,26 @@
-<!-- templates/edit_fish_boning.html -->
-
 {% extends "base.html" %}
 
 {% block content %}
-<h2>{{ 'Редактировать Бонитировку' if fish_boning else 'Новая запись о Бонитировке' }}</h2>
+<h2>{{ 'Редактировать запись' if fish_inventory else 'Новая запись' }}</h2>
 <form method="POST">
     {{ form.hidden_tag() }}
     <div class="form-group">
-        {{ form.fish_inventory_id.label(class="form-control-label") }}
-        {{ form.fish_inventory_id(class="form-control") }}
+        {{ form.control_date.label(class="form-control-label") }}
+        {{ form.control_date(class="form-control") }}
     </div>
+    <div class="form-group">
+        {{ form.pool_id.label(class="form-control-label") }}
+        {{ form.pool_id(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.fish_type_id.label(class="form-control-label") }}
+        {{ form.fish_type_id(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.control_desc.label(class="form-control-label") }}
+        {{ form.control_desc(class="form-control") }}
+    </div>
+    <hr>
     <div class="form-group">
         {{ form.fish_number.label(class="form-control-label") }}
         {{ form.fish_number(class="form-control") }}
@@ -36,3 +47,4 @@
     </div>
 </form>
 {% endblock %}
+

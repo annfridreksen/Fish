@@ -1,0 +1,32 @@
+<!-- templates/plot_graph.html -->
+
+{% extends "base.html" %}
+{% block content %}
+<h3>Графики гидрохимии</h3>
+<form method="POST" action="{{ url_for('plot_graph') }}">
+    {{ form.hidden_tag() }}
+    <div class="form-row">
+        <div class="col">
+            {{ form.parameter.label(class="form-control-label") }}
+            {{ form.parameter(class="form-control") }}
+        </div>
+        <div class="col">
+            {{ form.start_date.label(class="form-control-label") }}
+            {{ form.start_date(class="form-control") }}
+        </div>
+        <div class="col">
+            {{ form.end_date.label(class="form-control-label") }}
+            {{ form.end_date(class="form-control") }}
+        </div>
+    </div>
+    <div class="form-row mt-3">
+        <div class="col">
+            {{ form.submit(class="btn btn-primary") }}
+        </div>
+    </div>
+</form>
+
+{% if plot %}
+    {{ plot | safe }}
+{% endif %}
+{% endblock %}

@@ -1,0 +1,34 @@
+<!-- templates/edit_feed.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<h2>{{ 'Редактировать запись о кормлении' if feed else 'Новая запись о кормлении' }}</h2>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+        {{ form.pool_id.label(class="form-control-label") }}
+        {{ form.pool_id(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.feed_date.label(class="form-control-label") }}
+        {{ form.feed_date(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.feed_type_id.label(class="form-control-label") }}
+        {{ form.feed_type_id(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.feed_value.label(class="form-control-label") }}
+        {{ form.feed_value(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.feed_desc.label(class="form-control-label") }}
+        {{ form.feed_desc(class="form-control") }}
+    </div>
+    <div class="form-group">
+            {{ form.submit(class="btn btn-primary") }}
+            <a href="{{ url_for('feeding') }}" class="btn btn-secondary">Отмена</a>
+    </div>
+</form>
+{% endblock %}

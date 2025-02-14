@@ -1,10 +1,27 @@
-<!-- templates/fish.html -->
 
 {% extends "base.html" %}
 
 {% block content %}
 
-<h2>Журнал инвентаризации</h2>
+<h2>Журнал инвентаризации и бонитировки</h2>
+<form method="POST" action="{{ url_for('inventory') }}">
+    {{ filter_form.hidden_tag() }}
+    <div class="form-row">
+        <div class="col">
+            {{ filter_form.start_date.label(class="form-control-label") }}
+            {{ filter_form.start_date(class="form-control") }}
+        </div>
+        <div class="col">
+            {{ filter_form.end_date.label(class="form-control-label") }}
+            {{ filter_form.end_date(class="form-control") }}
+        </div>
+    </div>
+    <div class="form-row mt-3">
+        <div class="col">
+            {{ filter_form.submit(class="btn btn-primary") }}
+        </div>
+    </div>
+</form>
 <table class="table table-compact table-striped table-bordered mt-4">
     <thead>
         <tr>
@@ -13,60 +30,39 @@
             <th>Бассейн</th>
             <th>Вид рыбы</th>
             <th>Описание</th>
-            <th>Действие</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for fish_inventory in fish_inventories %}
-        <tr>
-            <td>{{ fish_inventory.id }}</td>
-            <td>{{ fish_inventory.control_date | datetimeformat }}</td>
-            <td>{{ fish_inventory.pool.name }}</td>
-            <td>{{ fish_inventory.fish_type.name }}</td>
-            <td>{{ fish_inventory.control_desc }}</td>
-            <td>
-                <a href="{{ url_for('edit_fish_inventory', inventory_id=fish_inventory.id) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
-                <form action="{{ url_for('delete_fish_inventory', inventory_id=fish_inventory.id) }}" method="post" style="display:inline;">
-                    <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                </form>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-<a href="{{ url_for('new_fish_inventory') }}" class="btn btn-primary">Добавить</a>
-
-<hr style="border: 2px solid blue;">
-
-<h2>Бонитировка</h2>
-<table class="table table-compact table-striped table-bordered mt-4">
-    <thead>
-        <tr>
-            <th>№ п/п</th>
-            <th>Инвентаризация</th>
             <th>Количество</th>
             <th>Биомасса</th>
+            <th>Выживаемость</th>
+            <th>Биометрические показания</th>
             <th>Комментарий</th>
             <th>Действие</th>
         </tr>
     </thead>
     <tbody>
-        {% for fish_boning in fish_bonings %}
-        <tr>
-            <td>{{ fish_boning.id }}</td>
-            <td>{{ fish_boning.fish_inventory.pool.name }} - {{ fish_boning.fish_inventory.control_date | datetimeformat }}</td>
-            <td>{{ fish_boning.fish_number }}</td>
-            <td>{{ fish_boning.fish_biomass }}</td>
-            <td>{{ fish_boning.fish_comment }}</td>
-            <td>
-                <a href="{{ url_for('edit_fish_boning', boning_id=fish_boning.id) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
-                <form action="{{ url_for('delete_fish_boning', boning_id=fish_boning.id) }}" method="post" style="display:inline;">
-                    <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                </form>
-            </td>
-        </tr>
+        {% for fish_inventory in fish_inventories %}
+            {% for fish_boning in fish_inventory.fish_bonings %}
+                <tr>
+                    <td>{{ fish_inventory.id }}</td>
+                    <td>{{ fish_inventory.control_date | datetimeformat }}</td>
+                    <td>{{ fish_inventory.pool.name }}</td>
+                    <td>{{ fish_inventory.fish_type.name }}</td>
+                    <td>{{ fish_inventory.control_desc }}</td>
+                    <td>{{ fish_boning.fish_number }}</td>
+                    <td>{{ fish_boning.fish_biomass }}</td>
+                    <td>{{ fish_boning.fish_survival }}</td>
+                    <td>{{ fish_boning.fish_biometric }}</td>
+                    <td>{{ fish_boning.fish_comment }}</td>
+                    <td>
+                        <a href="{{ url_for('edit_inventory_and_boning', inventory_id=fish_inventory.id) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
+                        <form action="{{ url_for('delete_inventory_and_boning', inventory_id=fish_inventory.id) }}" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
         {% endfor %}
     </tbody>
 </table>
-<a href="{{ url_for('new_fish_boning') }}" class="btn btn-primary">Добавить</a>
+<a href="{{ url_for('new_inventory_and_boning') }}" class="btn btn-primary">Добавить</a>
+
 {% endblock %}

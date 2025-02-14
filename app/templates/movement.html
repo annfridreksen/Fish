@@ -1,29 +1,9 @@
+<!-- templates/movement.html -->
+
 {% extends "base.html" %}
 
 {% block content %}
 <h2>Журнал перемещения</h2>
-<form method="POST" action="{{ url_for('movement') }}">
-    {{ filter_form.hidden_tag() }}
-    <div class="form-row">
-        <div class="col">
-            {{ filter_form.start_date.label(class="form-control-label") }}
-            {{ filter_form.start_date(class="form-control") }}
-        </div>
-        <div class="col">
-            {{ filter_form.end_date.label(class="form-control-label") }}
-            {{ filter_form.end_date(class="form-control") }}
-        </div>
-        <div class="col">
-            {{ filter_form.movement_reason.label(class="form-control-label") }}
-            {{ filter_form.movement_reason(class="form-control") }}
-        </div>
-    </div>
-    <div class="form-row mt-3">
-        <div class="col">
-            {{ filter_form.submit(class="btn btn-primary") }}
-        </div>
-    </div>
-</form>
 <table class="table table-compact table-striped table-bordered mt-4">
     <thead>
         <tr>
@@ -47,7 +27,7 @@
             <td>{{ movement.fish_type.name }}</td>
             <td>{{ movement.movement_date | datetimeformat }}</td>
             <td>{{ movement.fish_biomass }}</td>
-            <td>{{ movement.movement_reason.value }}</td>
+            <td>{{ movement.movement_reason }}</td>
             <td>{{ movement.movement_desc }}</td>
             <td>
                 <a href="{{ url_for('edit_fish_movement', movement_id=movement.id) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
