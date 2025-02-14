@@ -1,0 +1,42 @@
+<!-- templates/edit_fish_movement.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<h2>{{ 'Редактировать запись о Перемещении' if movement else 'Новая запись о Перемещении' }}</h2>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+        {{ form.pool_id_from.label(class="form-control-label") }}
+        {{ form.pool_id_from(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.pool_id_to.label(class="form-control-label") }}
+        {{ form.pool_id_to(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.fish_type_id.label(class="form-control-label") }}
+        {{ form.fish_type_id(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.movement_date.label(class="form-control-label") }}
+        {{ form.movement_date(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.fish_biomass.label(class="form-control-label") }}
+        {{ form.fish_biomass(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.movement_reason.label(class="form-control-label") }}
+        {{ form.movement_reason(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.movement_desc.label(class="form-control-label") }}
+        {{ form.movement_desc(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.submit(class="btn btn-primary") }}
+        <a href="{{ url_for('movement') }}" class="btn btn-secondary">Отмена</a>
+    </div>
+</form>
+{% endblock %}

@@ -1,0 +1,22 @@
+<!-- templates/edit_feed_type.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<h2>{{ 'Редактировать Тип Корма' if feed_type else 'Новый Тип Корма' }}</h2>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+        {{ form.name.label(class="form-control-label") }}
+        {{ form.name(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.unit.label(class="form-control-label") }}
+        {{ form.unit(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.submit(class="btn btn-primary") }}
+        <a href="{{ url_for('feeding') }}" class="btn btn-secondary">Отмена</a>
+    </div>
+</form>
+{% endblock %}

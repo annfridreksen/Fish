@@ -1,0 +1,43 @@
+<!-- templates/movement.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Журнал перемещения</h2>
+<table class="table table-compact table-striped table-bordered mt-4">
+    <thead>
+        <tr>
+            <th>№ п/п</th>
+            <th>Откуда (бассейн)</th>
+            <th>Куда (бассейн)</th>
+            <th>Вид рыбы</th>
+            <th>Дата</th>
+            <th>Биомасса</th>
+            <th>Причина перемещения</th>
+            <th>Описание</th>
+            <th>Действие</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for movement in movements %}
+        <tr>
+            <td>{{ movement.id }}</td>
+            <td>{{ movement.pool_from.name if movement.pool_from else 'N/A' }}</td>
+            <td>{{ movement.pool_to.name if movement.pool_to else 'N/A' }}</td>
+            <td>{{ movement.fish_type.name }}</td>
+            <td>{{ movement.movement_date | datetimeformat }}</td>
+            <td>{{ movement.fish_biomass }}</td>
+            <td>{{ movement.movement_reason }}</td>
+            <td>{{ movement.movement_desc }}</td>
+            <td>
+                <a href="{{ url_for('edit_fish_movement', movement_id=movement.id) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
+                <form action="{{ url_for('delete_fish_movement', movement_id=movement.id) }}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{{ url_for('new_fish_movement') }}" class="btn btn-primary">Добавить</a>
+{% endblock %}

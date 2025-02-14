@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h2>{{ 'Редактировать запись о Гидрохимии' if record else 'Новая запись о Гидрохимии' }}</h2>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.group_pool_id.label(class="form-control-label") }}
+                {{ form.group_pool_id(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.hydrochem_date.label(class="form-control-label") }}
+                {{ form.hydrochem_date(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.doxy.label(class="form-control-label") }}
+                {{ form.doxy(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.temperature.label(class="form-control-label") }}
+                {{ form.temperature(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.ph.label(class="form-control-label") }}
+                {{ form.ph(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.no2.label(class="form-control-label") }}
+                {{ form.no2(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.no3.label(class="form-control-label") }}
+                {{ form.no3(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.nh4.label(class="form-control-label") }}
+                {{ form.nh4(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.po4.label(class="form-control-label") }}
+                {{ form.po4(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.salinity.label(class="form-control-label") }}
+                {{ form.salinity(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.illumination.label(class="form-control-label") }}
+                {{ form.illumination(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-primary") }}
+                <a href="{{ url_for('hydrochemistry') }}" class="btn btn-secondary">Отмена</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

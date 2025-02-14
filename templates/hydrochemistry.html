@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Журнал гидрохимии</h2>
+<form method="POST" action="{{ url_for('hydrochemistry') }}">
+    {{ filter_form.hidden_tag() }}
+    <div class="form-row">
+        <div class="col">
+            {{ filter_form.start_date.label(class="form-control-label") }}
+            {{ filter_form.start_date(class="form-control") }}
+        </div>
+        <div class="col">
+            {{ filter_form.end_date.label(class="form-control-label") }}
+            {{ filter_form.end_date(class="form-control") }}
+        </div>
+    </div>
+    <div class="form-row mt-3">
+        <div class="col">
+            {{ filter_form.submit(class="btn btn-primary") }}
+        </div>
+    </div>
+</form>
+<table class="table table-compact table-striped table-bordered mt-4">
+    <thead>
+        <tr>
+            <th>Групповой бассейн</th>
+            <th>Бассейны</th>
+            <th><a href="?sort_by=hydrochem_date{% if not reverse %}&amp;reverse=true{% endif %}">Дата</a></th>
+            <th><a href="?sort_by=doxy{% if not reverse %}&amp;reverse=true{% endif %}">Doxy</a></th>
+            <th><a href="?sort_by=temperature{% if not reverse %}&amp;reverse=true{% endif %}">Темпер.</a></th>
+            <th><a href="?sort_by=ph{% if not reverse %}&amp;reverse=true{% endif %}">Ph</a></th>
+            <th><a href="?sort_by=no2{% if not reverse %}&amp;reverse=true{% endif %}">NO2</a></th>
+            <th><a href="?sort_by=no3{% if not reverse %}&amp;reverse=true{% endif %}">NO3</a></th>
+            <th><a href="?sort_by=nh4{% if not reverse %}&amp;reverse=true{% endif %}">NH4</a></th>
+            <th><a href="?sort_by=po4{% if not reverse %}&amp;reverse=true{% endif %}">PO4</a></th>
+            <th><a href="?sort_by=salinity{% if not reverse %}&amp;reverse=true{% endif %}">Солен.</a></th>
+            <th><a href="?sort_by=illumination{% if not reverse %}&amp;reverse=true{% endif %}">Освещ.</a></th>
+            <th>Действие</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for record in records %}
+        <tr>
+            <td>{{ record.group_pool.name }}</td>
+            <td>
+                {% for pool in record.group_pool.pools %}
+                    {{ pool.name }}{% if not loop.last %}, {% endif %}
+                {% endfor %}
+            </td>
+            <td>{{ record.hydrochem_date | datetimeformat }}</td>
+            <td>{{ record.doxy }}</td>
+            <td>{{ record.temperature }}</td>
+            <td>{{ record.ph }}</td>
+            <td>{{ record.no2 }}</td>
+            <td>{{ record.no3 }}</td>
+            <td>{{ record.nh4 }}</td>
+            <td>{{ record.po4 }}</td>
+            <td>{{ record.salinity }}</td>
+            <td>{{ record.illumination }}</td>
+            <td>
+                <a href="{{ url_for('edit_hydrochemistry', record_id=record.id) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
+                <form action="{{ url_for('delete_hydrochemistry', record_id=record.id) }}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{{ url_for('new_hydrochemistry') }}" class="btn btn-primary">Добавить журнал для одного бассейна</a>
+<a href="{{ url_for('generate_journal') }}" class="btn btn-primary">Добавить журнал для всех бассейнов</a>
+{% endblock %}

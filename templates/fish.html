@@ -1,0 +1,32 @@
+<!-- templates/fish.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Вид рыбы</h2>
+<table class="table table-compact table-striped table-bordered mt-4">
+    <thead>
+        <tr>
+            <th>№ п/п</th>
+            <th>Вид рыбы</th>
+            <th>Действие</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for fish_type in fish_types %}
+        <tr>
+            <td>{{ fish_type.id }}</td>
+            <td>{{ fish_type.name }}</td>
+            <td>
+                <a href="{{ url_for('edit_fish_type', fish_type_id=fish_type.id) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
+                <form action="{{ url_for('delete_fish_type', fish_type_id=fish_type.id) }}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                </form>
+            </td>
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{{ url_for('new_fish_type') }}" class="btn btn-primary">Добавить</a>
+{% endblock %}

@@ -1,0 +1,30 @@
+<!-- templates/edit_fish_inventory.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<h2>{{ 'Редактировать запись о Инвентаризации' if fish_inventory else 'Новая запись о Инвентаризации' }}</h2>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+        {{ form.control_date.label(class="form-control-label") }}
+        {{ form.control_date(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.pool_id.label(class="form-control-label") }}
+        {{ form.pool_id(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.fish_type_id.label(class="form-control-label") }}
+        {{ form.fish_type_id(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.control_desc.label(class="form-control-label") }}
+        {{ form.control_desc(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.submit(class="btn btn-primary") }}
+        <a href="{{ url_for('inventory') }}" class="btn btn-secondary">Отмена</a>
+    </div>
+</form>
+{% endblock %}

@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <h2>Бассейны</h2>
+        <table class="table table-compact table-striped table-bordered mt-4">
+            <thead>
+                <tr>
+                    <th>№ п/п</th>
+                    <th>Название</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pool in pools %}
+                <tr>
+                    <td>{{ pool.id }}</td>
+                    <td>{{ pool.name }}</td>
+                    <td>
+                        <a href="{{ url_for('edit_pool', pool_id=pool.id) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
+                        <form action="{{ url_for('delete_pool', pool_id=pool.id) }}" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{{ url_for('new_pool') }}" class="btn btn-primary">Добавить</a>
+    </div>
+    <div class="col-md-6">
+        <h2>Групповые Бассейны</h2>
+        <table class="table table-compact table-striped table-bordered mt-4">
+            <thead>
+                <tr>
+                    <th>№ п/п</th>
+                    <th>Название</th>
+                    <th>Бассейны</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for group_pool in group_pools %}
+                <tr>
+                    <td>{{ group_pool.id }}</td>
+                    <td>{{ group_pool.name }}</td>
+                    <td>
+                        {% for pool in group_pool.pools %}
+                            {{ pool.name }}{% if not loop.last %}, {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <a href="{{ url_for('edit_group_pool', group_pool_id=group_pool.id) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
+                        <form action="{{ url_for('delete_group_pool', group_pool_id=group_pool.id) }}" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{{ url_for('new_group_pool') }}" class="btn btn-primary">Добавить</a>
+    </div>
+</div>
+
+<hr style="border: 2px solid blue;">
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <h2>Последние гидрохимические измерения</h2>
+        <form method="POST" action="{{ url_for('pools') }}">
+            {{ pool_selection_form.hidden_tag() }}
+            <div class="form-row">
+                <div class="col">
+                    {{ pool_selection_form.pool_id.label(class="form-control-label") }}
+                    {{ pool_selection_form.pool_id(class="form-control") }}
+                </div>
+                <div class="col">
+                    {{ pool_selection_form.submit(class="btn btn-primary") }}
+                </div>
+            </div>
+        </form>
+        {% if latest_hydrochemistry %}
+        <h3>Гидрохимия для группового бассейна: {{ latest_hydrochemistry.group_pool.name }}</h3>
+        <table class="table table-compact table-striped table-bordered mt-4">
+            <thead>
+                <tr>
+                    <th>Дата</th>
+                    <th>Doxy</th>
+                    <th>Темп.</th>
+                    <th>Ph</th>
+                    <th>NO2</th>
+                    <th>NO3</th>
+                    <th>NH4</th>
+                    <th>PO4</th>
+                    <th>Солен.</th>
+                    <th>Освещ.</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ latest_hydrochemistry.hydrochem_date | datetimeformat }}</td>
+                    <td>{{ latest_hydrochemistry.doxy }}</td>
+                    <td>{{ latest_hydrochemistry.temperature }}</td>
+                    <td>{{ latest_hydrochemistry.ph }}</td>
+                    <td>{{ latest_hydrochemistry.no2 }}</td>
+                    <td>{{ latest_hydrochemistry.no3 }}</td>
+                    <td>{{ latest_hydrochemistry.nh4 }}</td>
+                    <td>{{ latest_hydrochemistry.po4 }}</td>
+                    <td>{{ latest_hydrochemistry.salinity }}</td>
+                    <td>{{ latest_hydrochemistry.illumination }}</td>
+                </tr>
+            </tbody>
+        </table>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

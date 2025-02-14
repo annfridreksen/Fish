@@ -1,0 +1,59 @@
+<!-- templates/base.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Электронный журнал аквакультуры</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <style>
+        .navbar-nav.ml-auto {
+            margin-left: auto;
+        }
+        .table-compact th, .table-compact td {
+            padding: 0.3rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{{ url_for('home') }}"><img src="/static/images/riba.png"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('hydrochemistry') }}">Гидрохимия</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('feeding') }}">Кормление</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('movement') }}">Перемещение</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('inventory') }}">Инвентаризация</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('pools') }}">Бассейны</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('fish') }}">Рыбы</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('fish_composition') }}">Сводная таблица рыбы</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('plot_graph') }}">Графики</a></li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                {% if current_user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Выход</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    <div class="container mt-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
